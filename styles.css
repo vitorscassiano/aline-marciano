@@ -617,9 +617,12 @@ section[id] { scroll-margin-top: 88px; }
   border: 1px solid var(--c-line);
   border-radius: var(--radius-sm);
   padding: 0 1.35rem;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
 }
-.faq-item[open] { background: var(--c-white); }
+.faq-item[open] {
+  background: var(--c-white);
+  box-shadow: var(--shadow-soft);
+}
 
 .faq-item summary {
   display: flex;
@@ -647,12 +650,25 @@ section[id] { scroll-margin-top: 88px; }
 }
 .faq-item[open] summary::after { transform: rotate(225deg); }
 
+/* Animação do acordeão: a altura da resposta transiciona entre 0fr e 1fr
+   (truque do grid-template-rows). O script.js marca os itens com .js,
+   intercepta os cliques e controla o momento exato de abrir/fechar. */
 .faq-a {
-  padding: 0 0 1.25rem;
+  display: grid;
+  grid-template-rows: 1fr; /* fallback sem JavaScript: conteúdo visível */
+  transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   color: var(--c-ink-soft);
   font-size: 0.97rem;
   max-width: 62ch;
 }
+.faq-a p {
+  margin: 0;
+  padding: 0 0 1.25rem;
+  overflow: hidden;
+  min-height: 0;
+}
+.faq-item.js .faq-a { grid-template-rows: 0fr; }
+.faq-item.js.expanded .faq-a { grid-template-rows: 1fr; }
 
 /* ══════════════════ CONTATO ══════════════════ */
 .contato-grid {

@@ -68,6 +68,55 @@ const MENSAGEM_PADRAO =
   )
   $$(".reveal").forEach((el) => io.observe(el))
 
+  /* Acordeão do FAQ — animação suave de abrir e fechar.
+     A altura da resposta transiciona via grid-template-rows (0fr ↔ 1fr);
+     o <details> só fecha de verdade depois que a animação termina. */
+  $$(".faq-item").forEach((item) => {
+    item.classList.add("js")
+    if (item.open) item.classList.add("expanded")
+
+    const summary = $("summary", item)
+    const panel = $(".faq-a", item)
+    let animating = false
+
+    const close = () => {
+      animating = true
+      item.classList.remove("expanded") // anima 1fr → 0fr
+
+      let done = false
+      const finish = () => {
+        if (done) return
+        done = true
+        panel.removeEventListener("transitionend", onEnd)
+        item.open = false // recolhe de fato após a animação
+        animating = false
+      }
+      const onEnd = (e) => {
+        if (e.target === panel && e.propertyName === "grid-template-rows") finish()
+      }
+      panel.addEventListener("transitionend", onEnd)
+      setTimeout(finish, 450) // garantia caso a transição não dispare
+    }
+
+    const openItem = () => {
+      animating = true
+      item.open = true // renderiza o conteúdo ainda recolhido…
+      // …e só expande no próximo quadro, para a transição acontecer
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          item.classList.add("expanded") // anima 0fr → 1fr
+          animating = false
+        }),
+      )
+    }
+
+    summary.addEventListener("click", (event) => {
+      event.preventDefault() // assume o controle do abrir/fechar
+      if (animating) return
+      item.open ? close() : openItem()
+    })
+  })
+
   /* Formulário de contato → abre o WhatsApp com a mensagem pronta */
   const form = $("#form-contato")
   const note = $("#form-note")

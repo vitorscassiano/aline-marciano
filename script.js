@@ -3,12 +3,12 @@
    ══════════════════════════════════════════════════════════════════ */
 
 // Número do WhatsApp no formato internacional (só dígitos).
-// Ex.: São Paulo (11) 99999-9999  →  "5511999999999"
-const WHATSAPP = "5511999999999"
+// Ex.: Rio de Janeiro (21) 99999-9999  →  "5521999999999"
+const WHATSAPP = "5521999999999"
 
 // Mensagem padrão dos botões de agendamento
 const MENSAGEM_PADRAO =
-  "Olá, Aline! Vim pelo site e gostaria de agendar uma primeira conversa."
+  "Olá, Alyne! Vim pelo site e gostaria de mais informações sobre os atendimentos."
 
 /* ─────── Daqui para baixo não é preciso alterar nada ─────── */
 ;(() => {
@@ -51,7 +51,7 @@ const MENSAGEM_PADRAO =
     if (e.key === "Escape") closeMenu()
   })
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 900) closeMenu()
+    if (window.innerWidth >= 1180) closeMenu()
   })
 
   /* Animação suave de entrada dos elementos ao rolar */
@@ -67,6 +67,28 @@ const MENSAGEM_PADRAO =
     { threshold: 0.12 },
   )
   $$(".reveal").forEach((el) => io.observe(el))
+
+  /* Escolha do público ("Conheça os atendimentos"): ao clicar em um card,
+     exibe os serviços correspondentes. Sem JavaScript, os dois painéis
+     ficam visíveis. */
+  const publicoCards = $$("[data-publico]")
+  const panels = $$("[data-panel]")
+  panels.forEach((p) => (p.hidden = true))
+
+  publicoCards.forEach((card) => {
+    card.addEventListener("click", () => {
+      const alvo = card.dataset.publico
+      const abrir = card.getAttribute("aria-expanded") !== "true"
+      publicoCards.forEach((c) =>
+        c.setAttribute("aria-expanded", String(abrir && c === card)),
+      )
+      panels.forEach((p) => (p.hidden = !(abrir && p.dataset.panel === alvo)))
+      if (abrir) {
+        const panel = panels.find((p) => p.dataset.panel === alvo)
+        panel.scrollIntoView({ behavior: "smooth", block: "nearest" })
+      }
+    })
+  })
 
   /* Acordeão do FAQ — animação suave de abrir e fechar.
      A altura da resposta transiciona via grid-template-rows (0fr ↔ 1fr);
@@ -125,7 +147,7 @@ const MENSAGEM_PADRAO =
     e.preventDefault()
 
     const nome = form.nome.value.trim()
-    const email = form.email.value.trim()
+    const servico = form.servico.value
     const mensagem = form.mensagem.value.trim()
 
     if (!nome || !mensagem) {
@@ -133,7 +155,7 @@ const MENSAGEM_PADRAO =
       return
     }
 
-    const texto = `Olá, Aline! Meu nome é ${nome}.${email ? ` Meu e-mail é ${email}.` : ""}\n\n${mensagem}`
+    const texto = `Olá, Alyne! Meu nome é ${nome}.${servico ? ` Tenho interesse em: ${servico}.` : ""}\n\n${mensagem}`
     window.open(
       `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(texto)}`,
       "_blank",

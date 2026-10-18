@@ -1,4 +1,4 @@
-# Site — Aline Marciano · Psicóloga
+# Site — Alyne Marciano · Neuropsicologia
 
 Template profissional de site vertical (one-page) com cores pastéis,
 100% responsivo, feito em HTML + CSS + JavaScript puros — sem build,
@@ -17,21 +17,24 @@ sem dependências. Basta abrir o `index.html` no navegador.
 
 ### Textos (tudo no `index.html`)
 
-Procure pelos comentários `✏️ EDITE` — cada seção tem um:
+Procure pelos comentários `✏️ EDITE`. Estrutura das seções:
 
-- **Hero** — frase principal e texto de apoio
-- **Sobre** — apresentação, formação e credenciais
-- **Áreas de atuação** — 6 cards (título + descrição)
-- **Como funciona** — os 3 passos + destaque do atendimento online
-- **Depoimentos** — ⚠️ use apenas relatos reais e autorizados
-  (verifique as diretrizes do CFP sobre depoimentos em publicidade)
-- **FAQ** — perguntas e respostas
-- **Contato** — e-mail, Instagram e horários
+- **Início** — boas-vindas, apresentação e registros (CRP / CRFa)
+- **Conheça os atendimentos** — cards por público (Infância e Adolescência /
+  Adulto e Idoso); ao clicar, exibem os serviços de cada público
+- **O que é Avaliação Neuropsicológica**
+- **Infância e Adolescência** — 6 grupos de sinais + chamada para agendar
+- **Adulto e Gerontologia** — sinais de alerta, impacto no dia a dia
+- **Programa REAB** — como funciona, Fonoaudiologia neurológica,
+  orientação a familiares e cuidadores, para quem é indicado
+- **Psicoterapia** — infantil (presencial) e adultos (presencial e on-line)
+- **Um olhar integrado** e **Sobre Alyne**
+- **FAQ** e **Contato** (o formulário inclui o atendimento de interesse)
 
 ### Número do WhatsApp (`script.js`, primeira linha)
 
 ```js
-const WHATSAPP = "5511999999999" // 55 + DDD + número
+const WHATSAPP = "5521999999999" // 55 + DDD + número
 ```
 
 Todos os botões ("Agendar conversa", botão flutuante e o formulário)
@@ -49,13 +52,16 @@ texto "sua foto aqui". Para trocar, substitua o elemento
 `.hero-blob` (seção Início) e `.sobre-photo` (seção Sobre) por:
 
 ```html
-<img src="sua-foto.jpg" alt="Aline Marciano" />
+<img src="sua-foto.jpg" alt="Alyne Marciano" />
 ```
 
-### CRP
+Os cards de público têm áreas `.publico-photo` para as fotos do
+espaço infantil e do espaço de gerontologia — coloque uma `<img>` dentro.
 
-O número do CRP aparece no cabeçalho, no rodapé e na seção Sobre —
-exibição é obrigatória para psicólogas(os) no Brasil.
+### Registros profissionais
+
+CRP 05/38142 e CRFa 1-15495 aparecem no Início, na seção Sobre e no
+rodapé — a exibição é obrigatória.
 
 ## Publicar
 
